@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Resume Analyzer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>AI Resume Analyzer</h1>
+
+  <input type="file" id="resume" />
+  <button onclick="upload()">Analyze</button>
+
+  <h2>Praising Analysis</h2>
+  <pre id="praise"></pre>
+
+  <h2>Critical Analysis</h2>
+  <pre id="critique"></pre>
+
+  <script>
+    async function upload() {
+      const file = document.getElementById("resume").files[0];
+      const formData = new FormData();
+      formData.append("resume", file);
+
+      const res = await fetch("/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      document.getElementById("praise").textContent = data.praising;
+      document.getElementById("critique").textContent = data.critical;
+    }
+  </script>
+</body>
+</html>
